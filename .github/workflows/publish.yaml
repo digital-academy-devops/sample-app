@@ -1,6 +1,6 @@
 name: Publishing image in Dockerhub
 on:
-  pull_request:
+  push:
     branches:
       - main
   release:

@@ -13,7 +13,11 @@ tasks:
     cmds:
       - poetry run python manage.py test
 
-  runserver:
+  run-dev-server:
     cmds:
       - poetry run python manage.py runserver
+
+  run-prod-server:
+    cmds:
+      - poetry run gunicorn -b 0.0.0.0:8000 sampleproject.wsgi
 

@@ -1,0 +1,30 @@
+---
+version: "3.9"
+
+services:
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "4000:8000"
+    volumes:
+      - db:/opt/app/
+      - ./Taskfile.container.yaml:/opt/app/Taskfile.yaml
+    container_name: abekrenev-devops-final-task-prod
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    volumes:
+      - db:/opt/app/
+    container_name: abekrenev-devops-final-task-migrate
+    depends_on:
+      - prod
+    command: migrate
+
+volumes:
+  db:

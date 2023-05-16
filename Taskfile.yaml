@@ -32,4 +32,15 @@ tasks:
     cmds:
       - docker run -it devops-final-task:{{.TAG}} --target prod
 
+  run-compose-prod:
+    cmds:
+      - docker compose up prod
+
+  run-compose-migrate:
+    cmds:
+      - docker compose up migrate 
+
+  down:
+    cmds:
+      - docker compose down
 
