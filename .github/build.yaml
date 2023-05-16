@@ -1,0 +1,27 @@
+name: Build final task image
+on:
+  push: {}
+  workflow_dispatch:
+    inputs:
+      tag: 
+        defualt: latest
+        description: image tag
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TITLE: abekrenev-devops-final-task
+      TAG: github.ref_name
+    steps:
+      - name: Check out Project
+        uses: actions/checkout@v3
+
+      # custom action
+      - name: build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          dockerfile: ./Dockerfile
+          push: false
+          tags: ${{ env.IMAGE_TITLE }}:${{ env.TAG }}
