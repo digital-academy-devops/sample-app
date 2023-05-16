@@ -1,0 +1,29 @@
+version: '3'
+
+env:
+  TAG:
+    sh: date "+%y-%m-%d-%H.%M"
+
+tasks:
+  build:
+    cmds:
+      - docker build -t devops-final-task:{{.TAG}} .
+      - echo Success build. name=devops-final-task:{{.TAG}}
+
+  run-test:
+    cmds:
+      - docker run -it devops-final-task:{{.TAG}} test
+
+  run-migrate:
+    cmds:
+      - docker run -it devops-final-task:{{.TAG}} migrate
+
+  run-collectstatic:
+    cmds:
+      - docker run -it devops-final-task:{{.TAG}} collectstatic
+
+  run-server:
+    cmds:
+      - docker run -it devops-final-task:{{.TAG}} runserver
+
+

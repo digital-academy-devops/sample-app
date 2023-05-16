@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+  migrate:
+    cmds:
+      - poetry run python manage.py migrate
+
+  collectstatic:
+    cmds:
+      - poetry run python manage.py collectstatic
+
+  test:
+    cmds:
+      - poetry run python manage.py test
+
+  runserver:
+    cmds:
+      - poetry run python manage.py runserver
+
