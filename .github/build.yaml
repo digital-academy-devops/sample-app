@@ -1,0 +1,26 @@
+name: Bild final task image
+on:
+  push: {}
+  workflow_dispatch:
+    inputs:
+      tag:
+        default: latest
+        description: image tag
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TITLE: amalkov-devops-final-task
+      TAG: github.ref_name
+    steps:
+      - name: Check out Project
+        uses: actions/checkout@v3
+
+      - name: build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          dockerfile: ./Dockerfile
+          push: false
+          tags: ${{ env.IMAGE_TITLE }}:${{ env.TAG }}
