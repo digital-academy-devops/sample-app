@@ -34,4 +34,5 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_TITLE }}:${{ env.TAG }}
           context: .
           push: true
+          target: builder
 

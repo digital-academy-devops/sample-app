@@ -27,4 +27,5 @@ jobs:
           dockerfile: ./Dockerfile
           push: false
           tags: ${{ env.IMAGE_TITLE }}:${{ env.TAG }}
+          target: builder
 

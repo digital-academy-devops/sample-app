@@ -1,4 +1,4 @@
-FROM python:3.11.3-slim
+FROM python:3.11.3-slim AS builder
 WORKDIR /opt/app
 
 RUN apt update && \
@@ -30,6 +30,15 @@ COPY sampleproject sampleproject
 COPY Container-taskfile.yaml Taskfile.yaml
 COPY manage.py manage.py
 
+FROM builder AS tests
+
 ENTRYPOINT ["task"]
 
 CMD ["test"]
+
+FROM builder AS prod
+
+ENTRYPOINT ["task"]
+
+CMD ["run-server"]
+

@@ -7,23 +7,29 @@ env:
 tasks:
   build:
     cmds:
-      - docker build -t devops-final-task:{{.TAG}} .
+      - docker build -t devops-final-task:{{.TAG}} --target builder .
       - echo Success build. name=devops-final-task:{{.TAG}}
+
+  build-tests:
+    cmds:
+      - docker build -t devops-final-task:{{.TAG}} --target tests .
+      - echo Success tests build. name=devops-final-task:{{.TAG}}
+
+  build-prod:
+    cmds:
+      - docker build -t devops-final-task:{{.TAG}} --target prod .
+      - echo Success prod build. name=devops-final-task:{{.TAG}}
+
+  run-builder:
+    cmds:
+      - docker run -it devops-final-task:{{.TAG}} --target builder 
 
   run-test:
     cmds:
-      - docker run -it devops-final-task:{{.TAG}} test
-
-  run-migrate:
-    cmds:
-      - docker run -it devops-final-task:{{.TAG}} migrate
-
-  run-collectstatic:
-    cmds:
-      - docker run -it devops-final-task:{{.TAG}} collectstatic
+      - docker run -it devops-final-task:{{.TAG}} --target tests
 
   run-server:
     cmds:
-      - docker run -it devops-final-task:{{.TAG}} runserver
+      - docker run -it devops-final-task:{{.TAG}} --target prod
 
 
