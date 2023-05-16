@@ -1,4 +1,4 @@
-name: Build final task image
+name: Run Unit Tests
 on:
   push: {}
   pull_request:
@@ -11,20 +11,18 @@ on:
         description: image tag
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     env:
       IMAGE_TITLE: abekrenev-devops-final-task
-      TAG: github.ref_name
+      TAG: ${{ github.ref_name }}
     steps:
       - name: Check out Project
         uses: actions/checkout@v3
-
-      - name: build
-        uses: docker/build-push-action@v3
+      - name: test
+        uses: ./.github/actions/test_action 
         with:
-          context: .
           dockerfile: ./Dockerfile
-          push: false
-          tags: ${{ env.IMAGE_TITLE }}:${{ env.TAG }}
+          image: ${{ env.IMAGE_TITLE }}:${{ env.TAG }}
+          context: .
 
