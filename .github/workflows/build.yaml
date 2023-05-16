@@ -1,6 +1,9 @@
 name: Build final task image
 on:
   push: {}
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       tag: 
