@@ -70,15 +70,15 @@ task build
 ```shell
 // Запуск unit-тестов
 task run-test TAG=YOUR_TAG
+```
 
-// Запуск сбора статистики
-task run-collectstatic TAG=YOUR_TAG 
-
- // Запуск миграции
-task run-migrate TAG=YOUR_TAG
-
-// Запуск dev-сервера
-task run-server TAG=YOUR_TAG
+### Запуск prod-сервера через docker-compose
+```shell
+task run-compose-prod
 ```
 
 
+### Запуск миграции через docker-compose
+```shell
+task run-compose-migrate
+```
