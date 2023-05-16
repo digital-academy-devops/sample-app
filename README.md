@@ -61,4 +61,24 @@ python manage.py runserver
 ```shell
 gunicorn sampleproject.wsgi
 ```
+### Сборка docker-контейнера с помощью Taskfile
+```shell
+task build
+```
+
+### Запуск docker-контейнера с помощью Taskfile
+```shell
+// Запуск unit-тестов
+task run-test TAG=YOUR_TAG
+
+// Запуск сбора статистики
+task run-collectstatic TAG=YOUR_TAG 
+
+ // Запуск миграции
+task run-migrate TAG=YOUR_TAG
+
+// Запуск dev-сервера
+task run-server TAG=YOUR_TAG
+```
+
 
