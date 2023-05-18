@@ -1,36 +1,37 @@
 version: '3'
 
 env:
+  TITLE: devops-final-task
   TAG:
     sh: date "+%y-%m-%d-%H.%M"
 
 tasks:
   build:
     cmds:
-      - docker build -t devops-final-task:{{.TAG}} --target builder .
-      - echo Success build. name=devops-final-task:{{.TAG}}
+      - docker build -t {{.TITLE}}:{{.TAG}} --target builder .
+      - echo Success build. name={{.TITLE}}:{{.TAG}}
 
   build-tests:
     cmds:
-      - docker build -t devops-final-task:{{.TAG}} --target tests .
-      - echo Success tests build. name=devops-final-task:{{.TAG}}
+      - docker build -t {{.TITLE}}:{{.TAG}} --target tests .
+      - echo Success tests build. name={{.TITLE}}:{{.TAG}}
 
   build-prod:
     cmds:
-      - docker build -t devops-final-task:{{.TAG}} --target prod .
-      - echo Success prod build. name=devops-final-task:{{.TAG}}
+      - docker build -t {{.TITLE}}:{{.TAG}} --target prod .
+      - echo Success prod build. name={{.TITLE}}:{{.TAG}}
 
   run-builder:
     cmds:
-      - docker run -it devops-final-task:{{.TAG}} --target builder 
+      - docker run -it {{.TITLE}}:{{.TAG}} --target builder 
 
   run-test:
     cmds:
-      - docker run -it devops-final-task:{{.TAG}} --target tests
+      - docker run -it {{.TITLE}}:{{.TAG}} --target tests
 
   run-server:
     cmds:
-      - docker run -it devops-final-task:{{.TAG}} --target prod
+      - docker run -it {{.TITLE}}:{{.TAG}} --target prod
 
   run-compose-prod:
     cmds:
