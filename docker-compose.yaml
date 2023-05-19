@@ -6,25 +6,59 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: prod
     ports:
-      - "4000:8000"
-    volumes:
-      - db:/opt/app/
-      - ./Taskfile.container.yaml:/opt/app/Taskfile.yaml
+      - ${PORT}:8000
     container_name: abekrenev-devops-final-task-prod
+    restart: always
+    tty: true
+    environment:
+      PYTHONUNBUFFERED: 1
+    env_file: .env
+    networks:
+      - api
+    volumes:
+      - ./sampleapp:/opt/app/sampleapp
+      - ./sampleproject:/opt/app/sampleproject
+    depends_on: 
+      - db
+    command: gunicorn
 
   migrate:
     build:
       context: .
       dockerfile: Dockerfile
-      target: builder
-    volumes:
-      - db:/opt/app/
+    restart: never
     container_name: abekrenev-devops-final-task-migrate
-    depends_on:
-      - prod
+    profiles:
+      - migrate
+    tty: true
+    environment:
+      PYTHONUNBUFFERED: 1
+    env_file: .env
+    volumes:
+      - ./sampleapp:/opt/app/sampleapp
+      - ./sampleproject:/opt/app/sampleproject
+      - migrationdata:/opt/app/sampleapp/migrations
     command: migrate
+    networks:
+      - api
+
+  db:
+    image: postgres:15.1
+    restart: always
+    container_name: abekrenev-devops-final-task-postgres
+    env_file: .env
+    networks:
+      - api
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  db:
+  pgdata:
+  sqlitedata:
+  migrationdata:
+
+networks:
+  api:
