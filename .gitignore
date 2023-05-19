@@ -4,3 +4,4 @@
 /ve/
 /staticfiles
 .DS_Store
+.env

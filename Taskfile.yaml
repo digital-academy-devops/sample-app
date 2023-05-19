@@ -8,30 +8,20 @@ env:
 tasks:
   build:
     cmds:
-      - docker build -t {{.TITLE}}:{{.TAG}} --target builder .
+      - docker build -t {{.TITLE}}:{{.TAG}} .
       - echo Success build. name={{.TITLE}}:{{.TAG}}
 
-  build-tests:
+  test:
     cmds:
-      - docker build -t {{.TITLE}}:{{.TAG}} --target tests .
-      - echo Success tests build. name={{.TITLE}}:{{.TAG}}
+      - docker run {{.TITLE}}:{{.TAG}} test
 
-  build-prod:
+  run-dev-server:
     cmds:
-      - docker build -t {{.TITLE}}:{{.TAG}} --target prod .
-      - echo Success prod build. name={{.TITLE}}:{{.TAG}}
+      - docker run {{.TITLE}}:{{.TAG}} runserver
 
-  run-builder:
+  run-prod-server:
     cmds:
-      - docker run -it {{.TITLE}}:{{.TAG}} --target builder 
-
-  run-test:
-    cmds:
-      - docker run -it {{.TITLE}}:{{.TAG}} --target tests
-
-  run-server:
-    cmds:
-      - docker run -it {{.TITLE}}:{{.TAG}} --target prod
+      - docker run -p 8000:8000 {{.TITLE}}:{{.TAG}} gunicorn
 
   run-compose-prod:
     cmds:
