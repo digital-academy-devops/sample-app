@@ -3,3 +3,6 @@
 Taskfile.yaml
 docker-compose.yaml
 README.md
+.vscode
+.venv
+.dockerignore
