@@ -1,0 +1,37 @@
+name: CI workflow
+on:
+  push: {}
+  workflow_dispatch:
+    inputs:
+      tag:
+        default: latest
+        description: image tag
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+     IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/sampleapp
+     TAG: "${{ inputs.tag != '' && inputs.tag || github.ref_name }}"
+    steps:
+      - name: Check out Project
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Docs: https://github.com/docker/build-push-action
+      - name: Build image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: ${{ (github.ref_name == 'main') && 'true' || 'false' }}
+          tags: ${{ env.IMAGE }}:${{ ENV.tag }
+
+      - name: Tests
+        run: |
+          docker run --rm ${{ env.IMAGE }}:${{ env.TAG }} test
